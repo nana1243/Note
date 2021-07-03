@@ -25,3 +25,7 @@ pipeline = [
 ]
 
 pprint.pprint(list(db.things.aggregate(pipeline)))
+
+
+# https://pymongo.readthedocs.io/en/stable/examples/aggregation.html?highlight=aggregation
+# https://docs.mongodb.com/manual/core/aggregation-pipeline/
