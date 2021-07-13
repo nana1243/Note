@@ -7,17 +7,16 @@ from pymongo import MongoClient
 # this example shows how to use the aggregate() method
 # to use the aggregation frame_work
 
-db = MongoClient().aggregation_example
-result = db.things.insert_many(
+db = MongoClient().test
+result = db.recommendation.insert_many(
     [
-        {"x": 1, "tags": ["dog", "cat"]},
-        {"x": 2, "tags": ["cat"]},
-        {"x": 2, "tags": ["mouse", "cat", "dog"]},
-        {"x": 3, "tags": []},
+        {"user_id": 1, "priorities": 2, "score": 20, "play_list_id": 33},
+        {"user_id": 2, "priorities": 2, "score": 20, "play_list_id": 33},
+        {"user_id": 3, "priorities": 2, "score": 20, "play_list_id": 33},
+        {"user_id": 4, "priorities": 2, "score": 20, "play_list_id": 33},
     ]
 )
 
-print(result.inserted_ids)
 pipeline = [
     {"$unwind": "$tags"},
     {"$group": {"_id": "$tags", "count": {"$sum": 1}}},
