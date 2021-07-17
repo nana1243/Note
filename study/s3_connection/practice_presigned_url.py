@@ -1,6 +1,5 @@
 from typing import Optional
 
-import boto3
 import botocore
 
 
@@ -11,14 +10,17 @@ class S3Client:
     # https://botocore.amazonaws.com/v1/documentation/api/latest/reference/config.html
     def __init__(self, **boto3_config):
         self._default_boto3_config = botocore.config.Config(
-            **{**dict(max_pool_connections=self.MAX_POOL_CONNECTIONS), **boto3_config}
+            **{
+                **dict(max_pool_connections=self.MAX_POOL_CONNECTIONS),
+                **boto3_config,
+            }  # noqa : W501
         )
-        self.client = boto3.client(
-            **load_func(json, s3_config_path), config=self._default_boto3_config
-        )
+        # self.client = boto3.client(
+        #     **load_func(json, s3_config_path),
+        #     config=self._default_boto3_config
+        # )
 
-
-    def generate_presigned_url(
+    def generate_presigned_url(  # noqa : W501
         self,
         bucket_name: str,
         s3_key: str,
@@ -57,7 +59,11 @@ class S3Client:
         """
         return self.client.generate_presigned_url(
             ClientMethod="get_object",
-            Params={"Bucket": bucket_name, "Key": s3_key, **client_method_params},
+            Params={
+                "Bucket": bucket_name,
+                "Key": s3_key,
+                **client_method_params,
+            },  # noqa : W501
             ExpiresIn=expires_in,
             HttpMethod=http_method,
         )
